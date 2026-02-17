@@ -11,7 +11,7 @@ const Footer = () => {
           Join us in building a generation that is mindful, resilient, and emotionally strong
         </h2>
         <Link
-          to="/programs"
+          to="/contact"
           className="inline-block border-2 border-primary-foreground px-8 py-3 rounded-full font-semibold hover:bg-primary-foreground hover:text-primary transition-all duration-300"
         >
           Reach out to us Today!
