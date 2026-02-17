@@ -2,26 +2,25 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BookOpen, School, Users, ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
-import AnimatedLogo from "@/components/AnimatedLogo";
 import SectionHeading from "@/components/SectionHeading";
 
 const programs = [
   {
     icon: BookOpen,
     title: "Student Workshops",
-    description: "Interactive sessions helping teens develop focus, manage emotions, and build inner resilience through mindfulness practices.",
+    description: "Age-appropriate workshops that help students build focus, manage emotions, and develop effective learning habits especially during exam periods.",
     link: "/programs",
   },
   {
     icon: School,
     title: "Program for Schools",
-    description: "Comprehensive mindfulness programs designed for school environments, empowering students and teachers alike.",
+    description: "Structured, mindfulness-informed programs designed for school environments, supporting attention, emotional regulation, and learning readiness.",
     link: "/programs",
   },
   {
     icon: Users,
     title: "Parent Sessions",
-    description: "Supportive sessions equipping parents with mindful tools to nurture their children's emotional growth.",
+    description: "Guided sessions that help parents understand their child’s learning and emotional needs, and support them with clarity and confidence at home.",
     link: "/programs",
   },
 ];
@@ -78,8 +77,9 @@ const Index = () => {
               Calm minds. Clear thinking. Confident futures.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-8 max-w-lg">
-              At PAGE4, our Happiitude certified coaches guide teens through mindfulness with values rooted in{" "}
-              <strong>Pause, Acceptance, Gratitude,</strong> and <strong>Equanimity</strong> — building a foundation for focused, balanced lives.
+              PAGE4 designs calm, structured programs that support students’ focus, emotional balance, and learning.
+              <br /><br />
+              Guided by four diverse professionals and grounded in <strong>Pause</strong>, <strong>Acceptance</strong>, <strong>Gratitude</strong>, and <strong>Equanimity</strong>, we help young minds build clarity, resilience, and confidence.
             </p>
             <Link
               to="/programs"
@@ -94,11 +94,69 @@ const Index = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="flex justify-center"
+            className="flex justify-center items-center h-[500px]"
           >
-            <div className="relative">
-              <AnimatedLogo size={280} className="mx-auto" />
+            <div className="relative w-full h-full max-w-[600px] flex items-center justify-center">
+              {/* Background Glow */}
               <div className="absolute inset-0 bg-brand-teal/5 rounded-full blur-3xl -z-10" />
+
+              {/* Main Logo - Center */}
+              <motion.div 
+                className="relative z-20 w-48 md:w-64 aspect-square rounded-full bg-white shadow-2xl p-4 flex items-center justify-center border-4 border-white"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <img 
+                  src="/images/hero/hero-logo.avif" 
+                  alt="PAGE4MENTORS Logo" 
+                  className="w-full h-full object-contain"
+                />
+              </motion.div>
+
+              {/* Surrounding Images */}
+              {/* Top Left */}
+              <motion.div 
+                className="absolute top-10 left-0 md:left-10 z-10 w-32 md:w-40 aspect-[4/3] rounded-lg overflow-hidden shadow-lg border-2 border-white -rotate-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                whileHover={{ scale: 1.1, rotate: 0, zIndex: 30 }}
+              >
+                <img src="/images/hero/hero-1.jpg" alt="Student Workshop" className="w-full h-full object-cover" />
+              </motion.div>
+
+              {/* Top Right */}
+              <motion.div 
+                className="absolute top-20 right-0 md:right-10 z-10 w-32 md:w-40 aspect-square rounded-lg overflow-hidden shadow-lg border-2 border-white rotate-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                whileHover={{ scale: 1.1, rotate: 0, zIndex: 30 }}
+              >
+                <img src="/images/hero/hero-2.jpg" alt="Mentoring Session" className="w-full h-full object-cover" />
+              </motion.div>
+
+              {/* Bottom Left */}
+              <motion.div 
+                className="absolute bottom-20 left-4 md:left-10 z-10 w-28 md:w-36 aspect-square rounded-lg overflow-hidden shadow-lg border-2 border-white rotate-3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                whileHover={{ scale: 1.1, rotate: 0, zIndex: 30 }}
+              >
+                <img src="/images/hero/hero-3.jpg" alt="Group Activity" className="w-full h-full object-cover" />
+              </motion.div>
+
+              {/* Bottom Right - Certified Coach */}
+              <motion.div 
+                className="absolute bottom-10 right-4 md:right-20 z-10 w-36 md:w-44 rounded-lg overflow-hidden shadow-lg border-2 border-white -rotate-3"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                whileHover={{ scale: 1.1, rotate: 0, zIndex: 30 }}
+              >
+                <img src="/images/hero/certified-coach.avif" alt="Certified Coach" className="w-full h-auto object-contain" />
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -168,8 +226,12 @@ const Index = () => {
               variants={item}
               className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300 group"
             >
-              <div className="h-48 bg-muted flex items-center justify-center">
-                <AnimatedLogo size={60} />
+              <div className="h-48 bg-brand-teal/10 flex items-center justify-center p-6">
+                <img 
+                  src="/images/hero/hero-logo.avif" 
+                  alt="PAGE4MENTORS" 
+                  className="w-full h-full object-contain opacity-80"
+                />
               </div>
               <div className="p-6">
                 <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">

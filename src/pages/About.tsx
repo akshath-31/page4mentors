@@ -8,24 +8,28 @@ const team = [
     title: "The Mindful Mentor",
     exp: "30+ years experience",
     description: "A seasoned educator and mindfulness coach with over three decades of experience in child psychology and holistic education.",
+    image: "/images/team/nandini-shekhar.avif",
   },
   {
     name: "K. Sreedevi",
     title: "The Storytelling Strategist",
     exp: "20+ years in media & education",
     description: "Combining the power of storytelling with mindfulness, Sreedevi creates engaging programs that resonate with young minds.",
+    image: "/images/team/k-sreedevi.avif",
   },
   {
     name: "Vartikka Arya",
     title: "The Clarity Builder",
     exp: "14+ years in education",
     description: "An innovative educator who helps students discover clarity of thought through structured mindfulness practices.",
+    image: "/images/team/vartikka-arya.avif",
   },
   {
     name: "Swathi Vanka",
     title: "The Nurturing Guide",
     exp: "10+ years in early childhood",
     description: "Specializing in early childhood development, Swathi brings warmth and nurture to every mindfulness session.",
+    image: "/images/team/swathi-vanka.avif",
   },
 ];
 
@@ -71,7 +75,7 @@ const About = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-serif text-3xl font-bold text-primary mb-6">Our Work</h2>
+            <h2 className="font-serif text-3xl font-bold text-primary mb-6">Who are we</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
               We are four Happiitude-certified mindfulness coaches who came together with a shared purpose — to help teens, parents, and educators embrace mindfulness as a way of life.
             </p>
@@ -106,7 +110,7 @@ const About = () => {
           >
             <h3 className="font-serif text-2xl font-bold text-primary mb-4">Our Mission</h3>
             <p className="text-muted-foreground leading-relaxed">
-              To impact 1 lakh students by fostering mental wellness, digital balance, and authentic self-expression through structured mindfulness programs that integrate seamlessly into everyday life.
+              Our mission is to nurture emotionally resilient, mindful, and confident individuals through research-backed, age-appropriate programs.  Over the next four years, we aim to impact 1 lakh students strengthening mental wellness, digital balance, and self-expression, one mindful step at a time.
             </p>
           </motion.div>
           <motion.div
@@ -118,7 +122,7 @@ const About = () => {
           >
             <h3 className="font-serif text-2xl font-bold text-primary mb-4">Our Vision</h3>
             <p className="text-muted-foreground leading-relaxed">
-              To create a generation of self-aware, emotionally resilient individuals who lead with compassion, think with clarity, and live with purpose — one mindful moment at a time.
+              To nurture a generation of self-aware, emotionally resilient, and socially responsible individuals who lead with clarity, compassion, and confidence in every space they inhabit.
             </p>
           </motion.div>
         </div>
@@ -141,10 +145,12 @@ const About = () => {
               variants={item}
               className="bg-card rounded-xl border border-border p-6 text-center hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
             >
-              <div className="w-20 h-20 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center">
-                <span className="font-serif text-2xl font-bold text-primary">
-                  {member.name.split(" ").map(n => n[0]).join("")}
-                </span>
+              <div className="w-24 h-24 rounded-full bg-muted mx-auto mb-4 overflow-hidden border-2 border-brand-teal/20">
+                <img 
+                  src={member.image} 
+                  alt={member.name} 
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <h3 className="font-serif text-lg font-bold text-primary">{member.name}</h3>
               <p className="text-brand-teal text-sm font-medium mb-1">{member.title}</p>

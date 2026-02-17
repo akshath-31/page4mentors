@@ -23,7 +23,7 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-3">
           <AnimatedLogo size={44} />
           <span className="font-serif text-xl font-bold text-primary tracking-tight">
-            PAGE<span className="text-brand-teal">4</span>
+            PAGE<span className="text-brand-teal">4</span>MENTORS
           </span>
         </Link>
 
@@ -54,10 +54,10 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-4">
           <a
             href="tel:+917011559098"
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            className="border-2 border-primary text-primary p-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+            aria-label="Call us"
           >
             <Phone className="w-4 h-4" />
-            +91 7011559098
           </a>
           <Link
             to="/contact"

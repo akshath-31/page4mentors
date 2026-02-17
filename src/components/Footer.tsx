@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import { WhatsAppIcon } from "./icons/WhatsAppIcon";
 import AnimatedLogo from "./AnimatedLogo";
 
 const Footer = () => {
@@ -42,10 +43,11 @@ const Footer = () => {
           {/* Social */}
           <div className="flex items-center gap-4 justify-center md:justify-end">
             {[
-              { icon: Facebook, href: "#" },
-              { icon: Instagram, href: "#" },
-              { icon: Linkedin, href: "#" },
-              { icon: Youtube, href: "#" },
+              { icon: Facebook, href: "https://www.facebook.com/people/Pagefourmentors-Mindfulness/pfbid02YTrWMsACLNXNEQ2QLGDgi5p2bpgfHotSYBJdBHozcXqNH3gk78u3D34xKmAVtswUl/" },
+              { icon: Instagram, href: "https://www.instagram.com/page4mentors/" },
+              { icon: Linkedin, href: "https://www.linkedin.com/in/page-four-mentors" },
+              { icon: Youtube, href: "https://www.youtube.com/@Page4mentors" },
+              { icon: WhatsAppIcon, href: "https://chat.whatsapp.com/LdNfXQK76RRAHajlmFURHh" },
             ].map(({ icon: Icon, href }, i) => (
               <a
                 key={i}

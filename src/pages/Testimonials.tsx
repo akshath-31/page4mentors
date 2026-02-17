@@ -6,18 +6,18 @@ import SectionHeading from "@/components/SectionHeading";
 const writtenTestimonials = [
   {
     name: "Sri Vidya",
-    role: "Parent",
-    text: "My daughter has transformed since joining the PAGE4 workshops. She's calmer, more focused, and handles her emotions with a maturity beyond her years. I'm so grateful for this program.",
+    role: "Parent of a teen participant",
+    text: "mindfulness programs at Page4mentors have been transformative for my daughter. She has embraced a sense of calm, developed valuable coping mechanisms, and feels supported by the dedicated team.",
   },
   {
     name: "Siddhan",
-    role: "12-year-old student",
-    text: "The mindfulness sessions make me feel better and happier. I used to get really angry but now I know how to pause and breathe. It's like having a superpower!",
+    role: "12-year-old Participant",
+    text: "I liked talking to the Page4 mentors. They were kind and listened to me. I felt better and happier after the sessions.",
   },
   {
     name: "Chinmay",
-    role: "15-year-old student",
-    text: "The sessions are super engaging and the coaches are really supportive. I learned so much about myself — how to manage stress and stay focused during exams.",
+    role: "15-year-old Participant",
+    text: "I genuinely enjoyed the sessions at Page4mentors. They were engaging and calming, and helped me understand myself better. The coaches were warm, supportive, and created a space where I felt comfortable opening up.",
   },
 ];
 
@@ -59,21 +59,26 @@ const Testimonials = () => {
       <section className="container mx-auto px-4 py-20">
         <SectionHeading title="Watch Their Stories" />
         <div className="grid md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((i) => (
+          {[
+            "/videos/testimonials/student-testimonial-1.mp4#t=0.5",
+            "/videos/testimonials/student-testimonial-2.mp4#t=0.5",
+            "/videos/testimonials/student-testimonial-3.mp4#t=0.5"
+          ].map((videoSrc, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="aspect-video bg-muted rounded-xl flex items-center justify-center relative group cursor-pointer overflow-hidden"
+              className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg"
             >
-              <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors" />
-              <div className="w-16 h-16 rounded-full bg-primary/80 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Play className="w-7 h-7 text-primary-foreground ml-1" />
-              </div>
-              <span className="absolute bottom-3 left-3 text-xs text-muted-foreground">
-                Student Testimonial {i}
-              </span>
+              <video 
+                controls 
+                preload="metadata"
+                className="w-full h-full object-cover"
+              >
+                <source src={videoSrc} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </motion.div>
           ))}
         </div>
@@ -112,16 +117,29 @@ const Testimonials = () => {
       <section className="container mx-auto px-4 py-20">
         <SectionHeading title="The Fun We Have With Our Kids" subtitle="Snapshots from our mindfulness workshops" />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          {[
+            "/images/gallery/gallery-1.avif",
+            "/images/gallery/gallery-2.avif",
+            "/images/gallery/gallery-3.avif",
+            "/images/gallery/gallery-4.avif",
+            "/images/gallery/gallery-5.avif",
+            "/images/gallery/gallery-6.avif",
+            "/images/gallery/gallery-7.avif",
+            "/images/gallery/gallery-8.avif"
+          ].map((src, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="aspect-square bg-muted rounded-xl overflow-hidden flex items-center justify-center"
+              className="aspect-square bg-muted rounded-xl overflow-hidden flex items-center justify-center group"
             >
-              <span className="text-muted-foreground text-sm">Workshop {i}</span>
+              <img 
+                src={src} 
+                alt={`Workshop moment ${i + 1}`} 
+                className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+              />
             </motion.div>
           ))}
         </div>
