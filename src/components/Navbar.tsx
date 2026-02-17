@@ -60,7 +60,7 @@ const Navbar = () => {
             +91 7011559098
           </a>
           <Link
-            to="/programs"
+            to="/contact"
             className="border-2 border-primary text-primary px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-300"
           >
             CONTACT US
@@ -110,7 +110,7 @@ const Navbar = () => {
                 +91 7011559098
               </a>
               <Link
-                to="/programs"
+                to="/contact"
                 onClick={() => setMobileOpen(false)}
                 className="border-2 border-primary text-primary px-5 py-2 rounded-full text-sm font-semibold text-center hover:bg-primary hover:text-primary-foreground transition-all"
               >
