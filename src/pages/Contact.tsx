@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+import emailjs from "@emailjs/browser";
 import Layout from "@/components/Layout";
 import SectionHeading from "@/components/SectionHeading";
 import { Input } from "@/components/ui/input";
@@ -28,10 +29,25 @@ const Contact = () => {
 
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setSubmitting(false);
-    toast.success("Thank you! We'll be in touch soon.");
-    reset();
+    try {
+      await emailjs.send(
+        "service_fhhdafk",
+        "template_77hjp5o",
+        {
+          from_name: `${data.firstName} ${data.lastName}`,
+          from_email: data.email,
+          phone: data.phone,
+          message: data.message,
+        },
+        "zcWoAOVsV2vUcqd7Q"
+      );
+      toast.success("Thank you! We'll be in touch soon.");
+      reset();
+    } catch {
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
