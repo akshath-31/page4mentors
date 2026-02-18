@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BookOpen, School, Users, ArrowRight } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionHeading from "@/components/SectionHeading";
+import { supabase } from "@/lib/supabase";
 
 const programs = [
   {
@@ -25,30 +27,6 @@ const programs = [
   },
 ];
 
-const blogPosts = [
-  {
-    title: "Valentine's Day: A Mindful Way to Celebrate Love",
-    excerpt: "Discover how mindfulness can deepen your connections and help you celebrate love in a more meaningful way.",
-    date: "Feb 14, 2025",
-    readTime: "3 min read",
-    slug: "valentines-day-mindful-love",
-  },
-  {
-    title: "How Mindfulness Helps Children Manage Exam Stress",
-    excerpt: "Practical mindfulness techniques that help students stay calm, focused, and confident during exams.",
-    date: "Jan 28, 2025",
-    readTime: "4 min read",
-    slug: "mindfulness-exam-stress",
-  },
-  {
-    title: "Mindful Play That Matters: 10 Ways Teens Can Build Emotional Resilience",
-    excerpt: "Fun and engaging activities that help teens develop emotional strength through mindful play.",
-    date: "Jan 15, 2025",
-    readTime: "5 min read",
-    slug: "mindful-play-teens",
-  },
-];
-
 const container = {
   hidden: {},
   show: { transition: { staggerChildren: 0.15 } },
@@ -59,7 +37,38 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
+interface Post {
+  title: string;
+  slug: string;
+  excerpt: string;
+  author?: string;
+  image_url: string;
+  created_at: string;
+}
+
 const Index = () => {
+  const [latestPosts, setLatestPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    fetchLatestPosts();
+  }, []);
+
+  const fetchLatestPosts = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("title, slug, excerpt, image_url, created_at")
+        .eq("is_published", true)
+        .order("created_at", { ascending: false })
+        .limit(3);
+
+      if (error) throw error;
+      setLatestPosts(data || []);
+    } catch (error) {
+      console.error("Error fetching latest posts:", error);
+    }
+  };
+
   return (
     <Layout>
       {/* Hero */}
@@ -220,30 +229,31 @@ const Index = () => {
           viewport={{ once: true }}
           className="grid md:grid-cols-3 gap-8 mb-10"
         >
-          {blogPosts.map((post) => (
+          {latestPosts.map((post) => (
             <motion.div
               key={post.slug}
               variants={item}
-              className="bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300 group"
             >
-              <div className="h-48 bg-brand-teal/10 flex items-center justify-center p-6">
-                <img 
-                  src="/images/hero/hero-logo.avif" 
-                  alt="PAGE4MENTORS" 
-                  className="w-full h-full object-contain opacity-80"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                  <span>{post.date}</span>
-                  <span>•</span>
-                  <span>{post.readTime}</span>
+              <Link to={`/blog/${post.slug}`} className="block h-full bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300 group">
+                <div className="h-48 bg-brand-teal/10 flex items-center justify-center p-6 overflow-hidden">
+                  <img 
+                    src={post.image_url || "/images/hero/hero-logo.avif"} 
+                    alt={post.title} 
+                    className={`w-full h-full ${post.image_url ? 'object-cover' : 'object-contain opacity-80'}`}
+                  />
                 </div>
-                <h3 className="font-serif text-lg font-bold text-primary mb-2 group-hover:text-brand-teal transition-colors line-clamp-2">
-                  {post.title}
-                </h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
-              </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                    <span className="font-medium text-foreground">{post.author || "Page4Mentors"}</span>
+                    <span>•</span>
+                    <span>{new Date(post.created_at).toLocaleDateString()}</span>
+                  </div>
+                  <h3 className="font-serif text-lg font-bold text-primary mb-2 group-hover:text-brand-teal transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

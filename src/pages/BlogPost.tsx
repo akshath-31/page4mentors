@@ -1,26 +1,64 @@
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Clock, Facebook, Linkedin, Twitter, Link as LinkIcon } from "lucide-react";
 import { toast } from "sonner";
 import Layout from "@/components/Layout";
-import { blogPosts } from "./Blog";
+import { supabase } from "@/lib/supabase";
+
+interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  author?: string;
+  content: string;
+  image_url: string;
+  created_at: string;
+  readTime: string;
+}
 
 const BlogPost = () => {
   const { slug } = useParams();
-  const post = blogPosts.find((p) => p.slug === slug);
+  const [post, setPost] = useState<Post | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [relatedPosts, setRelatedPosts] = useState<Post[]>([]);
 
-  if (!post) {
-    return (
-      <Layout>
-        <div className="container mx-auto px-4 py-20 text-center">
-          <h1 className="font-serif text-3xl font-bold text-primary mb-4">Post Not Found</h1>
-          <Link to="/blog" className="text-brand-teal hover:underline">← Back to Blog</Link>
-        </div>
-      </Layout>
-    );
-  }
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("posts")
+          .select("*")
+          .eq("slug", slug)
+          .single();
+  
+        if (error) throw error;
+        
+        setPost({
+          ...data,
+          readTime: "5 min read" // Placeholder calculation
+        });
+  
+        // Fetch related posts (placeholder logic: just fetch latest 3 other posts)
+        const { data: related } = await supabase
+          .from("posts")
+          .select("*")
+          .neq("slug", slug)
+          .eq("is_published", true)
+          .limit(3);
+          
+        setRelatedPosts(related || []);
+  
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const relatedPosts = blogPosts.filter((p) => p.slug !== slug).slice(0, 3);
+    if (slug) fetchPost();
+  }, [slug]);
 
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -29,6 +67,7 @@ const BlogPost = () => {
 
   // Simple markdown-ish rendering
   const renderContent = (content: string) => {
+    if (!content) return null;
     return content.split("\n").map((line, i) => {
       if (line.startsWith("## ")) {
         return <h2 key={i} className="font-serif text-2xl font-bold text-primary mt-8 mb-4">{line.replace("## ", "")}</h2>;
@@ -60,34 +99,54 @@ const BlogPost = () => {
     });
   };
 
+  if (loading) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center">Loading...</div>
+      </Layout>
+    );
+  }
+
+  if (!post) {
+    return (
+      <Layout>
+        <div className="container mx-auto px-4 py-20 text-center">
+          <h1 className="font-serif text-3xl font-bold text-primary mb-4">Post Not Found</h1>
+          <Link to="/blog" className="text-brand-teal hover:underline">← Back to Blog</Link>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <article className="container mx-auto px-4 py-12 max-w-3xl">
-        {/* Breadcrumb */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mb-8"
-        >
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
-            <ArrowLeft className="w-4 h-4" /> All Posts
-          </Link>
-        </motion.div>
-
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <div className="flex items-center gap-3 text-sm text-muted-foreground mb-4">
-            <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {post.readTime}</span>
+          <h1 className="font-serif text-3xl md:text-5xl font-bold text-primary mb-6 leading-tight">
+            {post.title}
+          </h1>
+
+          <div className="flex items-center gap-3 text-sm text-muted-foreground mb-8 border-b border-border pb-8">
+            <span className="font-semibold text-foreground">{post.author || "Page4Mentors"}</span>
             <span>•</span>
-            <span>{post.date}</span>
+            <span>{new Date(post.created_at).toLocaleDateString()}</span>
+            <span>•</span>
+            <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {post.readTime}</span>
           </div>
-          <h1 className="font-serif text-3xl md:text-4xl font-bold text-primary mb-6">{post.title}</h1>
-          <div className="h-64 bg-muted rounded-xl flex items-center justify-center mb-8">
-            <span className="text-muted-foreground">Featured Image</span>
+
+          <div className="w-full aspect-video bg-muted rounded-xl overflow-hidden mb-12 shadow-sm">
+             {post.image_url ? (
+                <img src={post.image_url} alt={post.title} className="w-full h-full object-cover" />
+             ) : (
+                <div className="w-full h-full flex items-center justify-center bg-brand-teal/10">
+                  <span className="text-muted-foreground">No Featured Image</span>
+                </div>
+             )}
           </div>
         </motion.div>
 
@@ -105,17 +164,31 @@ const BlogPost = () => {
         <div className="border-t border-border pt-8 mb-16">
           <p className="text-sm font-semibold text-primary mb-3">Share this article</p>
           <div className="flex items-center gap-3">
-            {[Facebook, Twitter, Linkedin].map((Icon, i) => (
-              <button
-                key={i}
-                className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
-              >
-                <Icon className="w-4 h-4 text-muted-foreground" />
-              </button>
-            ))}
+            <button
+              onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+              className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all duration-300"
+              title="Share on Facebook"
+            >
+              <Facebook className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`, '_blank')}
+              className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all duration-300"
+              title="Share on Twitter"
+            >
+              <Twitter className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
+              className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-all duration-300"
+              title="Share on LinkedIn"
+            >
+              <Linkedin className="w-4 h-4" />
+            </button>
             <button
               onClick={copyLink}
               className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-muted transition-colors"
+              title="Copy Link"
             >
               <LinkIcon className="w-4 h-4 text-muted-foreground" />
             </button>
