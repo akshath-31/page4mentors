@@ -23,7 +23,7 @@ type FormData = z.infer<typeof formSchema>;
 
 const Contact = () => {
   const [submitting, setSubmitting] = useState(false);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
@@ -100,7 +100,22 @@ const Contact = () => {
             </div>
             <div>
               <Label htmlFor="phone">Phone</Label>
-              <Input id="phone" type="tel" {...register("phone")} className="mt-1" placeholder="+91" />
+              <Input 
+                id="phone" 
+                type="tel" 
+                {...register("phone")} 
+                className="mt-1" 
+                placeholder="+91" 
+                onFocus={(e) => {
+                  if (!e.target.value) {
+                    setValue("phone", "+91 ");
+                    // Defer the selection range update to ensure the value is set first
+                    setTimeout(() => {
+                      e.target.setSelectionRange(4, 4);
+                    }, 0);
+                  }
+                }}
+              />
               {errors.phone && <p className="text-sm text-destructive mt-1">{errors.phone.message}</p>}
             </div>
             <div>
