@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Play, Quote } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionHeading from "@/components/SectionHeading";
+import HeroBackground from "@/components/HeroBackground";
 
 const writtenTestimonials = [
   {
@@ -35,8 +36,9 @@ const Testimonials = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="bg-primary text-primary-foreground py-20">
-        <div className="container mx-auto px-4 text-center">
+      <section className="bg-primary text-primary-foreground py-20 relative">
+        <HeroBackground />
+        <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
