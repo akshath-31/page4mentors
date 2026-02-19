@@ -234,24 +234,29 @@ const Index = () => {
               key={post.slug}
               variants={item}
             >
-              <Link to={`/blog/${post.slug}`} className="block h-full bg-card rounded-xl overflow-hidden border border-border hover:shadow-lg transition-all duration-300 group">
-                <div className="h-48 bg-brand-teal/10 flex items-center justify-center p-6 overflow-hidden">
+              <Link to={`/blog/${post.slug}`} className="block h-full relative group overflow-hidden rounded-xl shadow-lg aspect-square hover:shadow-2xl transition-all duration-300">
+                {/* Background Image */}
+                <div className="absolute inset-0">
                   <img 
                     src={post.image_url || "/images/hero/hero-logo.avif"} 
                     alt={post.title} 
-                    className={`w-full h-full ${post.image_url ? 'object-cover' : 'object-contain opacity-80'}`}
+                    className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${!post.image_url && 'opacity-50 bg-brand-teal/20'}`}
                   />
+                  {/* Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
                 </div>
-                <div className="p-6">
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
-                    <span className="font-medium text-foreground">{post.author || "Page4Mentors"}</span>
-                    <span>•</span>
-                    <span>{new Date(post.created_at).toLocaleDateString()}</span>
+
+                {/* Content */}
+                <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
+                  <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    <p className="text-brand-light-teal text-xs font-semibold tracking-wider uppercase mb-2">
+                       {new Date(post.created_at).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}
+                    </p>
+                    <h3 className="font-serif text-xl md:text-2xl font-bold text-white leading-tight mb-3 line-clamp-3 group-hover:text-brand-light-teal transition-colors">
+                      {post.title}
+                    </h3>
+                    <div className="w-12 h-1 bg-brand-teal rounded-full mb-0 opacity-0 group-hover:opacity-100 transition-all duration-300" />
                   </div>
-                  <h3 className="font-serif text-lg font-bold text-primary mb-2 group-hover:text-brand-teal transition-colors line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
                 </div>
               </Link>
             </motion.div>

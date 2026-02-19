@@ -130,7 +130,7 @@ const About = () => {
 
       {/* Team */}
       <section className="container mx-auto px-4 py-20">
-        <SectionHeading title="The Team" subtitle="Meet the coaches behind PAGE4" />
+        <SectionHeading title="The Team" subtitle="Meet the coaches behind PAGE4MENTORS" />
 
         <motion.div
           variants={container}
