@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Play, Quote } from "lucide-react";
 import Layout from "@/components/Layout";
 import SectionHeading from "@/components/SectionHeading";
-import HeroBackground from "@/components/HeroBackground";
+import TestimonialsHeroBackground from "@/components/hero-backgrounds/TestimonialsHeroBackground";
 
 const writtenTestimonials = [
   {
@@ -37,7 +37,7 @@ const Testimonials = () => {
     <Layout>
       {/* Hero */}
       <section className="bg-primary text-primary-foreground py-20 relative">
-        <HeroBackground />
+        <TestimonialsHeroBackground />
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
