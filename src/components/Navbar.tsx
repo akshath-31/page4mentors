@@ -67,14 +67,29 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          className="lg:hidden p-2 text-primary"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {/* Mobile/Tablet right side */}
+        <div className="lg:hidden flex items-center gap-2">
+          <a
+            href="tel:+917011559098"
+            className="border-2 border-primary text-primary p-2 rounded-full hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+            aria-label="Call us"
+          >
+            <Phone className="w-4 h-4" />
+          </a>
+          <Link
+            to="/contact"
+            className="border-2 border-primary text-primary px-4 py-1.5 rounded-full text-xs font-semibold hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+          >
+            CONTACT US
+          </Link>
+          <button
+            className="p-2 text-primary"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -102,20 +117,6 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
-              <a
-                href="tel:+917011559098"
-                className="flex items-center gap-2 text-sm text-muted-foreground py-2"
-              >
-                <Phone className="w-4 h-4" />
-                +91 7011559098
-              </a>
-              <Link
-                to="/contact"
-                onClick={() => setMobileOpen(false)}
-                className="border-2 border-primary text-primary px-5 py-2 rounded-full text-sm font-semibold text-center hover:bg-primary hover:text-primary-foreground transition-all"
-              >
-                CONTACT US
-              </Link>
             </nav>
           </motion.div>
         )}
